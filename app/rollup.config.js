@@ -41,18 +41,18 @@ export default {
 		file: "public/build/bundle.js",
 	},
 	plugins: [
+		replace({
+			process: JSON.stringify({
+				env: { isProd: production, ...config().parsed },
+			}),
+			preventAssignment: true,
+		}),
 		svelte({
 			preprocess: sveltePreprocess({ sourceMap: !production }),
 			compilerOptions: {
 				// enable run-time checks when not in production
 				dev: !production,
 			},
-		}),
-		replace({
-			process: JSON.stringify({
-				env: { isProd: production, ...config().parsed },
-			}),
-			preventAssignment: true,
 		}),
 		// we'll extract any component CSS out into
 		// a separate file - better for performance
