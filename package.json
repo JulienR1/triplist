@@ -1,12 +1,12 @@
 {
 	"name": "triplist",
-	"version": "0.0.0",
+	"version": "0.1.0",
 	"description": "A small projet to never forget what items are necessary for different trip.",
 	"main": "index.js",
 	"scripts": {
-		"start": "concurrently \"cd app && npm run start\"",
+		"start": "concurrently \"cd app && npm run start\" \"cd server && npm run start\"",
 		"build": "cd app && npm run build && cd ..",
-		"dev": "concurrently \"cd app && npm run dev\""
+		"dev": "concurrently \"cd app && npm run dev\" \"cd server && npm run dev\""
 	},
 	"keywords": [],
 	"author": "",
