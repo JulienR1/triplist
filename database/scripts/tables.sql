@@ -1,7 +1,7 @@
 CREATE TABLE Category
 (
   id INT NOT NULL AUTO_INCREMENT,
-  Label VARCHAR(64) NOT NULL,
+  label VARCHAR(64) NOT NULL,
   PRIMARY KEY (id)
 );
 
@@ -21,7 +21,7 @@ CREATE TABLE Activity
   PRIMARY KEY (id)
 );
 
-CREATE TABLE ActivityItems
+CREATE TABLE ActivityItem
 (
   item_id INT NOT NULL,
   activity_id INT NOT NULL,
