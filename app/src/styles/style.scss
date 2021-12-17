@@ -13,3 +13,11 @@ body {
 a {
 	text-decoration: none;
 }
+
+@mixin sticky-control {
+	text-align: center;
+	position: sticky;
+	display: block;
+	margin: 0 auto;
+	top: 12%;
+}
