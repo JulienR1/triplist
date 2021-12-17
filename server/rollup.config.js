@@ -4,7 +4,7 @@ import commonjs from "@rollup/plugin-commonjs";
 import { terser } from "rollup-plugin-terser";
 import json from "@rollup/plugin-json";
 import run from "@rollup/plugin-run";
-import exclueDependencies from "rollup-plugin-exclude-dependencies-from-bundle";
+import excludeDependencies from "rollup-plugin-exclude-dependencies-from-bundle";
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -19,7 +19,7 @@ export default {
 		warn(warning);
 	},
 	plugins: [
-		exclueDependencies(),
+		excludeDependencies(),
 		json(),
 		commonjs(),
 		nodeResolve(),
