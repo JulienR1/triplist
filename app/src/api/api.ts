@@ -1,11 +1,11 @@
+import type { ITripList } from "../../../common/ITripList";
 import { RequestMethod } from "./requestMethod";
 
-// TODO: specify return type
-const fetchAll = (): Promise<unknown | undefined> => {
-	return makeRequest("/");
+const fetchAll = (): Promise<ITripList | undefined> => {
+	return makeRequest<ITripList>("/");
 };
 
-const makeRequest = async (route: string, method = RequestMethod.GET, body?: string): Promise<unknown | undefined> => {
+const makeRequest = async <T>(route: string, method = RequestMethod.GET, body?: string): Promise<T | undefined> => {
 	const { env } = process;
 	if (!env.SERVER_URL) {
 		throw new Error("No endpoint has been set.");

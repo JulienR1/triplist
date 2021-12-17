@@ -11,6 +11,7 @@ export class RootHandler extends BaseRouterHandler {
 		const router = this.getRouter();
 
 		router.get(this.route, (req, res) => {
+			res.json(getTripList()).status(200);
 		});
 
 		return router;

@@ -1,7 +1,7 @@
 export type Activity = string;
 
 export interface ITripList {
-	activities: Activity;
+	activities: Activity[];
 	categories: Category;
 }
 
