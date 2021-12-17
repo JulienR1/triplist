@@ -1,7 +1,7 @@
 import type { ITripList } from "../../../common/ITripList";
 import { RequestMethod } from "./requestMethod";
 
-const fetchAll = (): Promise<ITripList | undefined> => {
+const fetchTriplist = (): Promise<ITripList | undefined> => {
 	return makeRequest<ITripList>("/");
 };
 
@@ -15,4 +15,4 @@ const makeRequest = async <T>(route: string, method = RequestMethod.GET, body?: 
 	return response.ok ? response.json() : undefined;
 };
 
-export { fetchAll };
+export { fetchTriplist };
