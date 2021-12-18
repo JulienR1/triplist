@@ -11,6 +11,12 @@
 		id: `${parentId}${item.name}${index}`,
 	}));
 
+	const onKeyPress = (event: KeyboardEvent, id: string) => {
+		if (event.key === "Enter") {
+			toggleCheckbox(id);
+		}
+	};
+
 	const toggleCheckbox = (id: string) => {
 		document.getElementById(id).click();
 	};
@@ -21,7 +27,7 @@
 	{#each itemDetails as { checked, id }}
 		<td>
 			<input type="checkbox" {id} {checked} />
-			<label tabindex="0" for={id} on:keypress|preventDefault={() => toggleCheckbox(id)}>
+			<label tabindex="0" for={id} on:keypress|preventDefault={(event) => onKeyPress(event, id)}>
 				<div>
 					<SvgIcon src={SvgSource.CHECK} size={14} color={"var(--dark-blue)"} />
 				</div>
