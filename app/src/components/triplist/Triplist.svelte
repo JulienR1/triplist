@@ -15,9 +15,6 @@
 		isLoading = true;
 		let apiStoreData: ITriplistStore = { apiData: undefined, error: undefined };
 		try {
-			// await new Promise((res, rej) => setTimeout(() => rej("err"), 1000));
-			// await new Promise((res, rej) => setTimeout(res, 1000));
-
 			apiStoreData.apiData = await api.fetchTriplist();
 		} catch (err) {
 			apiStoreData.error = err;

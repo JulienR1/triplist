@@ -8,7 +8,7 @@
 
 <tr>{categoryName}</tr>
 {#each items as item}
-	<TriplistItemRow {item} />
+	<TriplistItemRow {item} parentId={categoryName} />
 {/each}
 
 <style lang="scss"></style>

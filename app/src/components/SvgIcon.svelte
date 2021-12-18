@@ -15,6 +15,9 @@
 
 <style lang="scss">
 	i {
+		display: block;
+		width: var(--size);
+		height: var(--size);
 		font-style: normal;
 
 		:global(svg) {

@@ -6,6 +6,7 @@
 
 <thead>
 	<tr>
+		<th />
 		{#each activities as activity}
 			<th>{activity}</th>
 		{/each}
