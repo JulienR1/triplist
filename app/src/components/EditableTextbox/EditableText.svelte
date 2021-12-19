@@ -1,18 +1,19 @@
 <script lang="ts">
 	import { createEventDispatcher } from "svelte";
 	import { clickOutside } from "./../directives/clickOutside";
-	import type { ConfirmationFct } from "./ConfirmationFct";
+	import type { ValidationEvent } from "./IEditableTextbox";
 
 	export let value: string;
 	export let freshStart: boolean = false;
-	export let onRequestConfirmation: ConfirmationFct = async (newValue, oldValue) => true;
+	export let onChangeComplete: ValidationEvent;
 
 	const dispatch = createEventDispatcher();
 
-	let editing: boolean = false;
+	let editing = false;
 	let requestedValue: string;
-
 	let editionBox: HTMLElement;
+
+	$: isDirty = requestedValue && requestedValue !== value;
 
 	const startEditing = () => {
 		if (editing) {
@@ -25,19 +26,33 @@
 	};
 
 	const stopEditing = () => {
-		editing = false;
+		editionBox?.blur();
+		requestAnimationFrame(() => (editing = false));
 	};
 
-	const onInput = (event) => {
-		dispatch("input", event);
+	const confirm = () => {
+		value = requestedValue;
+		stopEditing();
 	};
 
-	const onChangeComplete = async (event) => {
-		dispatch("change", event);
-		const shouldCompleteModification = await onRequestConfirmation(requestedValue, value);
-		if (shouldCompleteModification) {
-			value = requestedValue;
+	const deny = () => {
+		requestedValue = "";
+		stopEditing();
+	};
+
+	const onChange = (event) => {
+		if (!isDirty) {
+			stopEditing();
+			return;
 		}
+
+		dispatch("change", event);
+		onChangeComplete({ confirm, deny });
+	};
+
+	const onInput = () => {
+		requestAnimationFrame(() => dispatch("datachange", requestedValue));
+		onChangeComplete({ confirm, deny });
 	};
 </script>
 
@@ -46,14 +61,19 @@
 	tabindex="0"
 	use:clickOutside
 	on:click={startEditing}
-	on:clickoutside={stopEditing}
-	on:keypress={(event) => event.key === "Enter" && startEditing()}
+	on:clickoutside={onChange}
+	on:keypress={(event) => {
+		if (!editing) {
+			event.stopPropagation();
+			event.key === "Enter" && startEditing();
+		}
+	}}
 >
 	{#if editing}
 		<input
 			type="text"
-			on:change={onChangeComplete}
 			on:input={onInput}
+			on:change={onChange}
 			bind:this={editionBox}
 			bind:value={requestedValue}
 			placeholder={freshStart ? value : ""}
@@ -64,4 +84,24 @@
 </div>
 
 <style lang="scss">
+	.editable-text {
+		display: block;
+		width: 100%;
+		border: 1px solid var(--light-grey);
+		border-radius: 4px;
+		padding: 4px;
+		margin: 1px;
+
+		&:focus,
+		&:focus-within {
+			border: 2px solid var(--dark-grey);
+			margin: 0;
+		}
+
+		input {
+			outline: none;
+			border: none;
+			width: 100%;
+		}
+	}
 </style>
