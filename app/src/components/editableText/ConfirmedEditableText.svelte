@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from "svelte";
+	import { SvgSource } from "../svg/SvgSource";
+	import SvgIcon from "../SvgIcon.svelte";
 	import EditableText from "./EditableText.svelte";
 	import EditableTextButton from "./EditableTextButton.svelte";
 	import { EditableTextCallback } from "./EditableTextCallback";
@@ -8,6 +10,7 @@
 	export let placeholder: string = undefined;
 
 	const dispatch = createEventDispatcher();
+	const iconSize = 24;
 
 	let editableTextID = {};
 	let confirmButton: HTMLElement;
@@ -26,15 +29,46 @@
 	};
 </script>
 
-<!-- TODO -->
+<div class="confirmed-editable-text">
+	<EditableText {editableTextID} {placeholder} bind:value on:keydown={handleKeypress}>
+		<div class="controls">
+			<EditableTextButton {editableTextID} callback={EditableTextCallback.CONFIRM} on:click={onDataChange}>
+				<span class="confirm" bind:this={confirmButton}>
+					<SvgIcon src={SvgSource.CHECK} size={iconSize} color={"var(--dark-green)"} />
+				</span>
+			</EditableTextButton>
+			<EditableTextButton {editableTextID} callback={EditableTextCallback.DENY}>
+				<span class="deny" bind:this={denyButton}>
+					<SvgIcon src={SvgSource.CANCEL} size={iconSize} color={"var(--dark-red)"} />
+				</span>
+			</EditableTextButton>
+		</div>
+	</EditableText>
+</div>
 
-<EditableText {editableTextID} {placeholder} bind:value on:keydown={handleKeypress}>
-	<EditableTextButton {editableTextID} callback={EditableTextCallback.CONFIRM} on:click={onDataChange}>
-		<span bind:this={confirmButton}>Confirmer</span>
-	</EditableTextButton>
-	<EditableTextButton {editableTextID} callback={EditableTextCallback.DENY}>
-		<span bind:this={denyButton}>Annuler</span>
-	</EditableTextButton>
-</EditableText>
+<style lang="scss">
+	.confirmed-editable-text {
+		display: flex;
+	}
 
-<style lang="scss"></style>
+	.controls {
+		display: flex;
+		align-items: center;
+		padding: 2px;
+		gap: 2px;
+
+		span {
+			display: block;
+			aspect-ratio: 1;
+			border-radius: 3px;
+
+			&.confirm {
+				background-color: var(--light-green);
+			}
+
+			&.deny {
+				background-color: var(--light-red);
+			}
+		}
+	}
+</style>

@@ -22,4 +22,25 @@
 	<slot />
 </button>
 
-<style lang="scss"></style>
+<style lang="scss">
+	button {
+		background-color: none;
+		height: fit-content;
+		outline: none;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		transition: all 0.15s ease;
+
+		&:hover,
+		&:focus,
+		&:focus-within {
+			box-shadow: 0 0 6px -1px var(--dark-grey);
+			transform: translateY(-1px);
+		}
+
+		&:active {
+			transform: translateY(0);
+		}
+	}
+</style>

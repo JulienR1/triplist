@@ -59,7 +59,7 @@
 </script>
 
 <div
-	class="editable-text"
+	class={"editable-text"}
 	tabindex="0"
 	use:clickOutside
 	on:click={startEditing}
@@ -77,13 +77,11 @@
 	{:else}
 		<p>{value}</p>
 	{/if}
-
-	{#if isDirty}
-		<div class="controls">
-			<slot />
-		</div>
-	{/if}
 </div>
+
+{#if isDirty}
+	<slot />
+{/if}
 
 <style lang="scss">
 	.editable-text {
@@ -91,7 +89,6 @@
 		width: 100%;
 		border: 1px solid var(--light-grey);
 		border-radius: 4px;
-		padding: 4px;
 		margin: 1px;
 
 		&:focus,
@@ -100,10 +97,19 @@
 			margin: 0;
 		}
 
-		input {
+		input,
+		p {
+			$padding: 4px;
+
+			width: calc(100% - 2 * #{$padding});
+			padding: $padding;
 			outline: none;
 			border: none;
-			width: 100%;
+			font-size: 12px;
+		}
+
+		input {
+			margin: 1px 0;
 		}
 	}
 </style>
