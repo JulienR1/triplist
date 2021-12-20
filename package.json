@@ -5,8 +5,9 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "concurrently \"cd app && npm run start\" \"cd server && npm run start\"",
-		"build": "cd app && npm run build && cd ..",
-		"dev": "concurrently \"cd app && npm run dev\" \"cd server && npm run dev\""
+		"build": "cd app && npm run build && cd ../server && npm run build && cd ..",
+		"dev:app": "cd app && npm run dev",
+		"dev:server": "cd server && npm run dev"
 	},
 	"keywords": [],
 	"author": "",
