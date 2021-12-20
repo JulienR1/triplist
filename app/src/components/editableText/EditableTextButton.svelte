@@ -1,9 +1,11 @@
 <script lang="ts">
-	import { getContext } from "svelte";
+	import { getContext, createEventDispatcher } from "svelte";
 	import type { EditableTextCallback } from "./EditableTextCallback";
 
 	export let editableTextID: {};
 	export let callback: EditableTextCallback;
+
+	const dispatch = createEventDispatcher();
 
 	const callbackFct = getContext(editableTextID)[callback];
 	if (!callback || !callbackFct) {
@@ -11,7 +13,12 @@
 	}
 </script>
 
-<button on:click={callbackFct}>
+<button
+	on:click={(event) => {
+		callbackFct();
+		dispatch("click", event);
+	}}
+>
 	<slot />
 </button>
 
