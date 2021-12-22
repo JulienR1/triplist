@@ -1,5 +1,6 @@
 import mysql, { PoolOptions } from "mysql2";
 import { Connection, Pool } from "mysql2/promise";
+import { Fields, Rows } from "./IPersistance";
 
 export class DatabaseHandler {
 	private static instance: DatabaseHandler | null = null;
@@ -31,8 +32,8 @@ export class DatabaseHandler {
 		return this.instance;
 	}
 
-	public static execute(query: string) {
-		return this.Instance().pool.execute(query);
+	public static execute(query: string, params?: any[]): Promise<[Rows, Fields]> {
+		return this.Instance().pool.execute(query, params);
 	}
 
 	public static async useConnection(fn: (conn: Connection) => void | Promise<void>): Promise<void> {
