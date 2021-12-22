@@ -6,17 +6,10 @@ import { terser } from "rollup-plugin-terser";
 import sveltePreprocess from "svelte-preprocess";
 import typescript from "@rollup/plugin-typescript";
 import replace from "@rollup/plugin-replace";
-import alias from "@rollup/plugin-alias";
 import scss from "rollup-plugin-scss";
 import { config } from "dotenv";
-import path from "path";
 
-const root = path.resolve(__dirname);
 const production = !process.env.ROLLUP_WATCH;
-
-const aliases = {
-	entries: [{ find: "@common", replacement: path.resolve(root, "../common") }],
-};
 
 function serve() {
 	let server;
@@ -54,7 +47,6 @@ export default {
 			}),
 			preventAssignment: true,
 		}),
-		alias(aliases),
 		svelte({
 			preprocess: sveltePreprocess({ sourceMap: !production }),
 			compilerOptions: {
