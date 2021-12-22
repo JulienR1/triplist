@@ -1,14 +1,15 @@
 <script lang="ts">
-	import type { Activity } from "../../../../common/ITripList";
+	import type { IActivity } from "@common/models/IActivity";
+	import TriplistActivity from "./TriplistActivity.svelte";
 
-	export let activities: Activity[];
+	export let activities: IActivity[];
 </script>
 
 <thead>
 	<tr>
 		<th />
 		{#each activities as activity}
-			<th>{activity}</th>
+			<TriplistActivity {activity} />
 		{/each}
 	</tr>
 </thead>

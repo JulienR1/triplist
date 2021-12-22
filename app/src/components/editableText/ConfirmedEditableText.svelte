@@ -16,7 +16,7 @@
 	let confirmButton: HTMLElement;
 	let denyButton: HTMLElement;
 
-	const onDataChange = () => dispatch("datachange");
+	const onDataChange = () => requestAnimationFrame(() => dispatch("datachange"));
 
 	const handleKeypress = ({ detail }: CustomEvent<KeyboardEvent>) => {
 		const { key } = detail as KeyboardEvent;

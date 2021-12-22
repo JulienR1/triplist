@@ -12,7 +12,7 @@
 	let modifiedValue = value;
 	let inputbox: HTMLInputElement;
 
-	$: isDirty = editing && modifiedValue !== value;
+	$: isDirty = editing && modifiedValue.trim() !== value;
 
 	const onInputRender = (element: HTMLElement) => {
 		element.focus();
@@ -75,7 +75,7 @@
 			placeholder={placeholder || value}
 		/>
 	{:else}
-		<p>{value}</p>
+		<p class={!value && "placeholder"}>{value || placeholder}</p>
 	{/if}
 </div>
 
@@ -106,6 +106,10 @@
 			outline: none;
 			border: none;
 			font-size: 12px;
+		}
+
+		p.placeholder {
+			opacity: 0.5;
 		}
 
 		input {

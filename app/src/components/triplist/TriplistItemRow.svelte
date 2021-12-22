@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Item } from "../../../../common/ITripList";
+	import type { Item } from "../../../../common/models/ITripList";
 	import { SvgSource } from "../svg/SvgSource";
 	import SvgIcon from "../SvgIcon.svelte";
 

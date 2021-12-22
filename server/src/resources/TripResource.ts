@@ -1,10 +1,12 @@
-import { ITripList } from "../../../common/ITripList";
+import { ITripList } from "@common/models/ITripList";
+import { getActivities } from "./ActivityResource";
 
-const getTripList = (): ITripList => {
-	return mockTripList();
+const getTripList = async (): Promise<ITripList> => {
+	const activities = await getActivities();
+	return { ...mockTripList(activities.length), activities };
 };
 
-const mockTripList = () => {
+const mockTripList = (categoryCount: number) => {
 	const generateRandomBoolArray = (len: number) => {
 		return Array(len)
 			.fill(true)
@@ -19,11 +21,11 @@ const mockTripList = () => {
 	};
 
 	for (let i = 0; i < 4; i++) {
-		(triplist.categories as any)[`c${i}`] = Array(6)
+		(triplist.categories as any)[`c${i}`] = Array(5)
 			.fill(true)
 			.map((v, index) => ({
 				name: `item${index}`,
-				values: generateRandomBoolArray(5),
+				values: generateRandomBoolArray(categoryCount),
 			}));
 	}
 
