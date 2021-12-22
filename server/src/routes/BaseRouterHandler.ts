@@ -1,45 +1,26 @@
-import { Request, Response, NextFunction, Router, Application } from "express";
+import { Request, Response, NextFunction, Router } from "express";
 import { Log } from "../logger";
-import { IRouteHandler } from "./IRouteHandler";
 
-export abstract class BaseRouterHandler implements IRouteHandler {
+export class BaseRouterHandler {
+	private static instance: BaseRouterHandler | undefined = undefined;
+
 	/**
 	 * @param route The endpoint to listen to.
 	 */
-	constructor(protected route: string) {}
-
-	/**
-	 * Adds the route data to the application
-	 * @param app Base application to which the routes need to be added.
-	 */
-	public register(app: Application) {
-		app.use(this.getRoute(), this.getRouteLogic());
-	}
-
-	/**
-	 * @returns The specific endpoint (string) to which the router is listening to.
-	 */
-	private getRoute(): string {
-		if (!this.route) {
-			throw new Error("No endpoint has been specified for the specified route handler.");
-		}
-		return this.route;
-	}
-
-	/**
-	 * Implements the details corresponding to the route through REST verbs.
-	 */
-	protected abstract getRouteLogic(): Router;
-
-	/**
-	 * @returns The base object containing the routing information to be detailed by children classes.
-	 */
-	protected getRouter(): Router {
-		const router = Router();
+	private constructor(private router: Router) {
 		router.use((request: Request, response: Response, next: NextFunction) => {
-			Log(`'${this.getRoute()}' has been called.`);
+			Log(`'${request.method.toUpperCase()} ${request.originalUrl}' has been called.`);
 			next();
 		});
-		return router;
+	}
+
+	/**
+	 * @returns The single base router handler in the app.
+	 */
+	public static Instance(): Router {
+		if (this.instance === undefined) {
+			this.instance = new BaseRouterHandler(Router());
+		}
+		return this.instance.router;
 	}
 }

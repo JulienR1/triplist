@@ -1,19 +1,16 @@
 import { Router } from "express";
 import { getTripList } from "../resources/TripResource";
-import { BaseRouterHandler } from "./BaseRouterHandler";
+import { RouterHandler } from "./RouterHandler";
 
-export class RootHandler extends BaseRouterHandler {
+export class RootHandler extends RouterHandler {
 	constructor() {
 		super("/");
 	}
 
-	public getRouteLogic(): Router {
-		const router = this.getRouter();
-
-		router.get(this.route, (req, res) => {
-			res.json(getTripList()).status(200);
+	register(router: Router) {
+		router.get(this.route, async (req, res) => {
+			const triplist = await getTripList();
+			res.json(triplist).status(200);
 		});
-
-		return router;
 	}
 }

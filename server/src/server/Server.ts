@@ -1,6 +1,6 @@
-import express from "express";
+import express, { json } from "express";
 import cors, { CorsOptions } from "cors";
-import { IRouteHandler } from "../routes/IRouteHandler";
+import { BaseRouterHandler } from "src/routes/BaseRouterHandler";
 
 export class Server {
 	private corsOptions: CorsOptions = {
@@ -8,14 +8,11 @@ export class Server {
 		optionsSuccessStatus: 200,
 	};
 
-	constructor(port: number | string, handlers: IRouteHandler[]) {
+	constructor(port: number | string) {
 		const app = express();
 		app.use(cors(this.corsOptions));
-
-		handlers.forEach((handler) => {
-			handler.register(app);
-		});
-
+		app.use(json());
+		app.use(BaseRouterHandler.Instance());
 		app.listen(port, () => console.log(`Listening on port ${port}`));
 	}
 }
