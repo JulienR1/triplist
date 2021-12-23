@@ -2,6 +2,7 @@
 	import { api } from "src/api";
 	import type { IActivity } from "@common/models/IActivity";
 	import ConfirmedEditableText from "../editableText/ConfirmedEditableText.svelte";
+	import { Toast } from "src/toast/Toast";
 
 	export let activity: IActivity;
 
@@ -9,10 +10,10 @@
 		const updatedActivity = await api.updateActivity(activity);
 
 		if (updatedActivity && updatedActivity.id === activity.id && updatedActivity.label === activity.label) {
-			console.log("TODO: activity success toast!");
+			Toast.info("Modification complétée avec succès");
 		} else {
 			activity = { ...updatedActivity };
-			console.log("TODO: activity failed toast!");
+			Toast.error("Une erreur est survenue au cours de la modification.");
 		}
 	};
 </script>
