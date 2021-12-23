@@ -39,7 +39,7 @@
 	<tr>
 		<th />
 		{#each activities as activity}
-			<TriplistActivity {activity} />
+			<TriplistActivity {activity} on:requestupdate />
 		{/each}
 		<th class="add-button">
 			{#if !isCreatingNewActivity}

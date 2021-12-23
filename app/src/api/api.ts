@@ -14,6 +14,10 @@ const createActivity = async (data: IActivity): Promise<IActivity> => {
 	return makeRequest<IActivity>("/activity", RequestMethod.PUT, { ...data });
 };
 
+const deleteActivity = async (data: IActivity): Promise<void> => {
+	return makeRequest<void>("/activity", RequestMethod.DELETE, { ...data });
+};
+
 const makeRequest = async <T>(
 	route: string,
 	method = RequestMethod.GET,
@@ -35,7 +39,8 @@ const makeRequest = async <T>(
 		mode: "cors",
 		body: JSON.stringify(body),
 	});
+
 	return response.ok ? response.json() : undefined;
 };
 
-export { fetchTriplist, updateActivity, createActivity };
+export { fetchTriplist, updateActivity, createActivity, deleteActivity };

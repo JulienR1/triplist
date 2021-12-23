@@ -29,4 +29,8 @@ const addActivity = async ({ label }: IActivity): Promise<IActivity | undefined>
 	return newActivityData;
 };
 
-export { getActivities, getActivityById, updateActivity, addActivity };
+const removeActivity = async ({ id }: IActivity): Promise<void> => {
+	await DatabaseHandler.execute("DELETE FROM activity WHERE id = ?", [id]);
+};
+
+export { getActivities, getActivityById, updateActivity, addActivity, removeActivity };

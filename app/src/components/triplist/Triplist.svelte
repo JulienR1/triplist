@@ -29,12 +29,22 @@
 		triplistData.update((storedData) => {
 			const apiStoreData = storedData.apiData;
 
-			apiStoreData.activities.push(activity);
-			Object.keys(apiStoreData.categories).forEach((key) => {
-				apiStoreData.categories[key].forEach((item) => {
-					item.values.push(false);
+			let index = apiStoreData.activities.findIndex(({ id }) => id === activity.id);
+			if (index > 0) {
+				apiStoreData.activities.splice(index, 1);
+				Object.keys(apiStoreData.categories).forEach((key) => {
+					apiStoreData.categories[key].forEach((item) => {
+						item.values.splice(index, 1);
+					});
 				});
-			});
+			} else {
+				apiStoreData.activities.push(activity);
+				Object.keys(apiStoreData.categories).forEach((key) => {
+					apiStoreData.categories[key].forEach((item) => {
+						item.values.push(false);
+					});
+				});
+			}
 
 			return storedData;
 		});

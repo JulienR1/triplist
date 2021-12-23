@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import { IActivity } from "@common/models/IActivity";
-import { addActivity, getActivityById, updateActivity } from "src/resources/ActivityResource";
+import { addActivity, getActivityById, removeActivity, updateActivity } from "src/resources/ActivityResource";
 import { activityIsValid } from "common/dist/utils/activityUtils";
 import { stringIsValid } from "common/dist/utils/baseValidators";
 import { RouterHandler } from "./RouterHandler";
@@ -30,6 +30,16 @@ export class ActivityHandler extends RouterHandler {
 				if (savedData) {
 					return res.json(savedData).status(200);
 				}
+			}
+			res.sendStatus(400);
+		});
+
+		router.delete(this.route, async ({ body }: Request, res: Response) => {
+			const activityBody = body as IActivity;
+
+			if (activityIsValid(activityBody)) {
+				removeActivity(activityBody);
+				return res.json({ ok: true }).status(200);
 			}
 			res.sendStatus(400);
 		});
