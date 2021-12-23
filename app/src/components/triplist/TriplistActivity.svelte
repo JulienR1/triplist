@@ -3,6 +3,7 @@
 	import type { IActivity } from "@common/models/IActivity";
 	import ConfirmedEditableText from "../editableText/ConfirmedEditableText.svelte";
 	import { Toast } from "src/toast/Toast";
+	import { activityIsValid } from "common/dist/utils/activityUtils";
 
 	export let activity: IActivity;
 
@@ -12,7 +13,9 @@
 		if (updatedActivity && updatedActivity.id === activity.id && updatedActivity.label === activity.label) {
 			Toast.info("Modification complétée avec succès");
 		} else {
-			activity = { ...updatedActivity };
+			if (activityIsValid(updatedActivity)) {
+				activity = { ...updatedActivity };
+			}
 			Toast.error("Une erreur est survenue au cours de la modification.");
 		}
 	};

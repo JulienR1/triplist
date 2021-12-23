@@ -67,6 +67,7 @@
 
 	.content {
 		display: flex;
+		align-items: center;
 	}
 
 	p {
