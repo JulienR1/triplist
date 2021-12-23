@@ -10,6 +10,10 @@ const updateActivity = async (data: IActivity): Promise<IActivity> => {
 	return makeRequest<IActivity>("/activity", RequestMethod.POST, { ...data });
 };
 
+const createActivity = async (data: IActivity): Promise<IActivity> => {
+	return makeRequest<IActivity>("/activity", RequestMethod.PUT, { ...data });
+};
+
 const makeRequest = async <T>(
 	route: string,
 	method = RequestMethod.GET,
@@ -34,4 +38,4 @@ const makeRequest = async <T>(
 	return response.ok ? response.json() : undefined;
 };
 
-export { fetchTriplist, updateActivity };
+export { fetchTriplist, updateActivity, createActivity };

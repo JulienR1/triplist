@@ -16,4 +16,17 @@ const updateActivity = async ({ id, label }: IActivity): Promise<void> => {
 	await DatabaseHandler.execute("UPDATE activity SET label = ? WHERE id = ?", [label, id]);
 };
 
-export { getActivities, getActivityById, updateActivity };
+const addActivity = async ({ label }: IActivity): Promise<IActivity | undefined> => {
+	let newActivityData: IActivity | undefined = undefined;
+	await DatabaseHandler.useConnection(async (connection) => {
+		await connection.execute("INSERT INTO activity (label) VALUES (?)", [label]);
+		const [rows] = (await connection.execute("SELECT * FROM activity WHERE label = ?", [label])) as RowDataPacket[];
+		if (rows.length === 1) {
+			newActivityData = rows[0];
+		}
+	});
+
+	return newActivityData;
+};
+
+export { getActivities, getActivityById, updateActivity, addActivity };

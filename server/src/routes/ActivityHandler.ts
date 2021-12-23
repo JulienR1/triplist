@@ -1,7 +1,8 @@
-import { IActivity } from "@common/models/IActivity";
 import { Router, Request, Response } from "express";
-import { getActivityById, updateActivity } from "src/resources/ActivityResource";
+import { IActivity } from "@common/models/IActivity";
+import { addActivity, getActivityById, updateActivity } from "src/resources/ActivityResource";
 import { activityIsValid } from "common/dist/utils/activityUtils";
+import { stringIsValid } from "common/dist/utils/baseValidators";
 import { RouterHandler } from "./RouterHandler";
 
 export class ActivityHandler extends RouterHandler {
@@ -17,6 +18,18 @@ export class ActivityHandler extends RouterHandler {
 				await updateActivity(activityBody);
 				const activityData = await getActivityById(activityBody.id);
 				return res.json(activityData).status(200);
+			}
+			res.sendStatus(400);
+		});
+
+		router.put(this.route, async ({ body }: Request, res: Response) => {
+			const activityBody = body as IActivity;
+
+			if (stringIsValid(activityBody.label)) {
+				const savedData = await addActivity(activityBody);
+				if (savedData) {
+					return res.json(savedData).status(200);
+				}
 			}
 			res.sendStatus(400);
 		});

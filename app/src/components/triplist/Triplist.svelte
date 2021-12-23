@@ -7,6 +7,7 @@
 	import TriplistBody from "./TriplistBody.svelte";
 	import TriplistHeader from "./TriplistHeader.svelte";
 	import UnknownError from "./../UnknownError.svelte";
+	import type { IActivity } from "@common/models/IActivity";
 
 	let isLoading = false;
 	onMount(() => callApi());
@@ -23,6 +24,21 @@
 			isLoading = false;
 		}
 	};
+
+	const updateActivities = async ({ detail: activity }: CustomEvent<IActivity>) => {
+		triplistData.update((storedData) => {
+			const apiStoreData = storedData.apiData;
+
+			apiStoreData.activities.push(activity);
+			Object.keys(apiStoreData.categories).forEach((key) => {
+				apiStoreData.categories[key].forEach((item) => {
+					item.values.push(false);
+				});
+			});
+
+			return storedData;
+		});
+	};
 </script>
 
 <section>
@@ -30,7 +46,7 @@
 		<Loader />
 	{:else if $triplistData.apiData}
 		<table id="triplist">
-			<TriplistHeader activities={$triplistData.apiData.activities} />
+			<TriplistHeader activities={$triplistData.apiData.activities} on:requestupdate={updateActivities} />
 			<TriplistBody categories={$triplistData.apiData.categories} />
 		</table>
 	{:else if $triplistData.error}
