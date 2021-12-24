@@ -1,21 +1,21 @@
 <script lang="ts">
-	import type { Item } from "@common/models/ITripList";
-	import ConfirmedEditableText from "../editableText/ConfirmedEditableText.svelte";
-	import TriplistItemRow from "./TriplistItemRow.svelte";
+    import type { IItem } from "@common/models/IItem";
+    import ConfirmedEditableText from "../editableText/ConfirmedEditableText.svelte";
+    import TriplistItemRow from "./TriplistItemRow.svelte";
 
-	export let categoryName: string;
-	export let items: Item[];
+    export let categoryName: string;
+    export let items: IItem[];
 
-	const handleDataChange = () => {
-		console.log("new data", categoryName);
-	};
+    const handleDataChange = () => {
+        console.log("new data", categoryName);
+    };
 </script>
 
 <tr>
-	<ConfirmedEditableText bind:value={categoryName} on:datachange={handleDataChange} placeholder="Nom de la catégorie" />
+    <ConfirmedEditableText bind:value={categoryName} on:datachange={handleDataChange} placeholder="Nom de la catégorie" />
 </tr>
 {#each items as item}
-	<TriplistItemRow {item} parentId={categoryName} />
+    <TriplistItemRow {item} parentId={categoryName} />
 {/each}
 
 <style lang="scss"></style>

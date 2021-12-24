@@ -1,14 +1,14 @@
 <script lang="ts">
-	import type { Category } from "../../../../common/ITripList";
-	import TriplistCategory from "./TriplistCategory.svelte";
+    import type { ICategory } from "@common/models/ICategory";
+    import TriplistCategory from "./TriplistCategory.svelte";
 
-	export let categories: Category;
+    export let categories: ICategory[];
 </script>
 
 <tbody>
-	{#each Object.keys(categories) as categoryName}
-		<TriplistCategory {categoryName} items={categories[categoryName]} />
-	{/each}
+    {#each categories as { label, items }}
+        <TriplistCategory categoryName={label} {items} />
+    {/each}
 </tbody>
 
 <style lang="scss"></style>

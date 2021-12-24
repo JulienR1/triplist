@@ -1,13 +1,7 @@
+import { IActivity } from "./IActivity";
+import { ICategory } from "./ICategory";
+
 export interface ITripList {
-	activities: Activity[];
-	categories: Category;
-}
-
-export interface Category {
-	[key: string]: Item[];
-}
-
-export interface Item {
-	name: string;
-	values: boolean[];
+    activities: IActivity[];
+    categories: ICategory[];
 }
