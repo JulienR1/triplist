@@ -1,1 +1,1 @@
-["init_schema", "tables"]
+["init_schema", "tables", "removeActivityChecks_trigger", "removeItemChecks_trigger"]

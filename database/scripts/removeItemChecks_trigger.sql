@@ -1,0 +1,9 @@
+DROP TRIGGER IF EXISTS `removeItemChecks`;
+DELIMITER $$
+CREATE TRIGGER `removeItemChecks`
+BEFORE DELETE ON `item`
+FOR EACH ROW BEGIN
+	DELETE FROM activityitem
+    WHERE item_id = OLD.id;
+END$$
+DELIMITER ;
