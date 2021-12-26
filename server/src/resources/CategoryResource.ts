@@ -26,4 +26,8 @@ const addCategory = async ({ label }: ICategory): Promise<ICategory | undefined>
     return newCategoryData;
 };
 
-export { getCategories, addCategory };
+const removeCategory = async ({ id }: ICategory): Promise<void> => {
+    await DatabaseHandler.execute("DELETE FROM category WHERE id = ?", [id]);
+};
+
+export { getCategories, addCategory, removeCategory };

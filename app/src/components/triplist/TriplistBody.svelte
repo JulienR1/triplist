@@ -29,8 +29,8 @@
 </script>
 
 <tbody>
-    {#each categories as { label, items }}
-        <TriplistCategory categoryName={label} {items} />
+    {#each categories as category (category.id)}
+        <TriplistCategory {category} on:requestupdate />
     {/each}
     <tr>
         <ConfirmedEditableText bind:value={newCategoryName} on:datachange={handleDataChange} placeholder="Nouvelle catégorie" />

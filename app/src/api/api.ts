@@ -23,6 +23,10 @@ const createCategory = async (data: ICategory): Promise<ICategory> => {
     return makeRequest<ICategory>("/category", RequestMethod.PUT, { ...data });
 };
 
+const deleteCategory = async (data: ICategory): Promise<void> => {
+    return makeRequest<void>("/category", RequestMethod.DELETE, { ...data });
+};
+
 const makeRequest = async <T>(route: string, method = RequestMethod.GET, body?: string | { [key: string]: unknown }): Promise<T | undefined> => {
     const { env } = process;
     if (!env.SERVER_URL) {
@@ -44,4 +48,4 @@ const makeRequest = async <T>(route: string, method = RequestMethod.GET, body?: 
     return response.ok ? response.json() : undefined;
 };
 
-export { fetchTriplist, updateActivity, createActivity, deleteActivity, createCategory };
+export { fetchTriplist, updateActivity, createActivity, deleteActivity, createCategory, deleteCategory };
