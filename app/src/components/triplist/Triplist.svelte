@@ -39,8 +39,8 @@
                 apiStoreData.activities.splice(index, 1);
             }
 
-            Object.keys(apiStoreData.categories).forEach((key) => {
-                apiStoreData.categories[key].forEach((item) => {
+            apiStoreData.categories.forEach((category) => {
+                category.items.forEach((item) => {
                     if (isAddingNewItem) {
                         item.values.push(false);
                     } else {
