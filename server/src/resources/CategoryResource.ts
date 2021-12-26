@@ -12,6 +12,19 @@ const getCategories = async (): Promise<ICategory[]> => {
     return rows.map((category: ICategory, index: number) => ({ ...category, items: items[index] }));
 };
 
+const updateCategory = async ({ id, label, items }: ICategory): Promise<ICategory | undefined> => {
+    let updatedCategoryData: ICategory | undefined = undefined;
+    await DatabaseHandler.useConnection(async (connection) => {
+        await connection.execute("UPDATE category SET label = ? WHERE id = ?", [label, id]);
+        const [rows] = (await connection.execute("SELECT * FROM category WHERE id = ?", [id])) as RowDataPacket[];
+        if (rows.length === 1) {
+            updatedCategoryData = { ...rows[0], items };
+        }
+    });
+
+    return updatedCategoryData;
+};
+
 const addCategory = async ({ label }: ICategory): Promise<ICategory | undefined> => {
     let newCategoryData: ICategory | undefined = undefined;
     await DatabaseHandler.useConnection(async (connection) => {
@@ -30,4 +43,4 @@ const removeCategory = async ({ id }: ICategory): Promise<void> => {
     await DatabaseHandler.execute("DELETE FROM category WHERE id = ?", [id]);
 };
 
-export { getCategories, addCategory, removeCategory };
+export { getCategories, addCategory, removeCategory, updateCategory };

@@ -2,8 +2,7 @@ import { ICategory } from "@common/models/ICategory";
 import { Router, Request, Response } from "express";
 import { RouterHandler } from "../RouterHandler";
 import { categoryIsValid } from "common/dist/utils/categoryUtils";
-import { addCategory, removeCategory } from "src/resources/CategoryResource";
-import { Log } from "src/logger";
+import { addCategory, removeCategory, updateCategory } from "../../resources/CategoryResource";
 
 export class CategoryHandler extends RouterHandler {
     constructor() {
@@ -11,8 +10,15 @@ export class CategoryHandler extends RouterHandler {
     }
 
     register(router: Router) {
-        router.get(this.route, (req: Request, res: Response) => {
-            Log("TODO");
+        router.post(this.route, async ({ body }: Request, res: Response) => {
+            const categoryBody = body as ICategory;
+
+            if (categoryIsValid(categoryBody)) {
+                const categoryData = await updateCategory(categoryBody);
+                if (categoryData) {
+                    return res.json(categoryData).status(200);
+                }
+            }
             res.sendStatus(400);
         });
 

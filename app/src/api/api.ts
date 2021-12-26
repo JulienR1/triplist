@@ -19,6 +19,10 @@ const deleteActivity = async (data: IActivity): Promise<void> => {
     return makeRequest<void>("/activity", RequestMethod.DELETE, { ...data });
 };
 
+const updateCategory = async (data: IActivity): Promise<ICategory> => {
+    return makeRequest<ICategory>("/category", RequestMethod.POST, { ...data });
+};
+
 const createCategory = async (data: ICategory): Promise<ICategory> => {
     return makeRequest<ICategory>("/category", RequestMethod.PUT, { ...data });
 };
@@ -48,4 +52,4 @@ const makeRequest = async <T>(route: string, method = RequestMethod.GET, body?: 
     return response.ok ? response.json() : undefined;
 };
 
-export { fetchTriplist, updateActivity, createActivity, deleteActivity, createCategory, deleteCategory };
+export { fetchTriplist, updateActivity, createActivity, deleteActivity, updateCategory, createCategory, deleteCategory };

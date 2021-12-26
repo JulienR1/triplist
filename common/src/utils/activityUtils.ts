@@ -6,7 +6,7 @@ const activityIsValid = (activity: IActivity) => {
 };
 
 const activitiesAreEqual = (a: IActivity, b: IActivity): boolean => {
-    return false;
+    return a && b && a.id === b.id && a.label === b.label;
 };
 
 export { activityIsValid, activitiesAreEqual };
