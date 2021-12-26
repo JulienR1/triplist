@@ -1,6 +1,5 @@
 import { config } from "dotenv";
-import { ActivityHandler } from "./routes/ActivityHandler";
-import { RootHandler } from "./routes/RootHandler";
+import { ActivityHandler, CategoryHandler, RootHandler } from "./routes/handlers";
 import { Server } from "./server";
 
 config();
@@ -8,4 +7,5 @@ const port = process.env.PORT || 3000;
 
 new RootHandler();
 new ActivityHandler();
+new CategoryHandler();
 new Server(port);

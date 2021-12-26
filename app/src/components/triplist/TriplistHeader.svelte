@@ -4,7 +4,7 @@
     import ConfirmedEditableText from "../editableText/ConfirmedEditableText.svelte";
     import { stringIsValid } from "common/dist/utils/baseValidators";
     import TriplistActivity from "./TriplistActivity.svelte";
-    import { createActivity } from "src/api/api";
+    import { api } from "src/api";
     import { Toast } from "src/toast/Toast";
 
     export let activities: IActivity[];
@@ -17,8 +17,8 @@
         newActivityName = "";
 
         if (stringIsValid(storedActivityName)) {
-            const receivedActivityData = await createActivity({ id: -1, label: storedActivityName });
-            if (storedActivityName === receivedActivityData.label) {
+            const receivedActivityData = await api.createActivity({ id: -1, label: storedActivityName });
+            if (storedActivityName === receivedActivityData?.label) {
                 Toast.info("Ajout complété avec succès.");
                 dispatch("requestupdate", receivedActivityData);
                 return;

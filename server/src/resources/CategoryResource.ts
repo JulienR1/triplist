@@ -12,4 +12,18 @@ const getCategories = async (): Promise<ICategory[]> => {
     return rows.map((category: ICategory, index: number) => ({ ...category, items: items[index] }));
 };
 
-export { getCategories };
+const addCategory = async ({ label }: ICategory): Promise<ICategory | undefined> => {
+    let newCategoryData: ICategory | undefined = undefined;
+    await DatabaseHandler.useConnection(async (connection) => {
+        await connection.execute("INSERT INTO category (label) VALUES (?)", [label]);
+        const [rows] = (await connection.execute("SELECT * FROM category WHERE label = ?", [label])) as RowDataPacket[];
+        // TODO: What happens if there are 2 categories w/ the same name?
+        if (rows.length === 1) {
+            newCategoryData = rows[0];
+        }
+    });
+
+    return newCategoryData;
+};
+
+export { getCategories, addCategory };

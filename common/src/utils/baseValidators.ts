@@ -1,13 +1,19 @@
+import { STR_MAX_LENGTH } from "./../constants";
+
 const integerIsValid = (num: number) => {
-	return Boolean(num) && Math.floor(num) === num;
+    return (Boolean(num) || num === 0) && Math.floor(num) === num;
 };
 
 const positiveIntegerIsValid = (num: number) => {
-	return integerIsValid(num) && num >= 0;
+    return integerIsValid(num) && num >= 0;
 };
 
 const stringIsValid = (str: string) => {
-	return Boolean(str) && str.trim().length > 0;
+    return Boolean(str) && str.trim().length > 0;
 };
 
-export { integerIsValid, positiveIntegerIsValid, stringIsValid };
+const storedStringIsValid = (str: string, maxLength = STR_MAX_LENGTH): boolean => {
+    return stringIsValid(str) && str.trim().length <= maxLength;
+};
+
+export { integerIsValid, positiveIntegerIsValid, stringIsValid, storedStringIsValid };
