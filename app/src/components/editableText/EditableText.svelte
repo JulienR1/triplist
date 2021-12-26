@@ -45,7 +45,7 @@
     };
 
     const applyChanges = (shouldApplyChanges: boolean) => {
-        inputbox.blur();
+        inputbox?.blur();
         requestAnimationFrame(() => {
             editing = false;
             if (shouldApplyChanges) {
