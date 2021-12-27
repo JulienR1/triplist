@@ -13,3 +13,4 @@ git push https://git.heroku.com/trip-luggage.git master --force
 
 rm -rf .git
 cp -r .git2 .git
+rm -rf .git2
