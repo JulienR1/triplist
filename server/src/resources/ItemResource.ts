@@ -46,4 +46,22 @@ const addItemToCategory = async (itemName: string, { id }: ICategory): Promise<I
     return storedItemData;
 };
 
-export { getItemsForCategory, addItemToCategory };
+const updateItem = async ({ id, label, values }: IItem): Promise<IItem | undefined> => {
+    let updatedItem: IItem | undefined = undefined;
+
+    await DatabaseHandler.useConnection(async (connection) => {
+        await connection.execute("UPDATE item SET label = ? WHERE id = ?", [label, id]);
+        const [rows] = (await connection.execute("SELECT * FROM item WHERE id = ?", [id])) as RowDataPacket[];
+        if (rows.length === 1) {
+            updatedItem = { ...rows[0], values };
+        }
+    });
+
+    return updatedItem;
+};
+
+const deleteItem = async ({ id }: IItem): Promise<void> => {
+    await DatabaseHandler.execute("DELETE FROM item WHERE id = ?", [id]);
+};
+
+export { getItemsForCategory, addItemToCategory, updateItem, deleteItem };

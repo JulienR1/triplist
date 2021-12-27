@@ -43,17 +43,26 @@
             const newItem = await api.createItem(category, storedItemName);
             if (newItem?.label === storedItemName) {
                 Toast.info("Nouvel item ajouté.");
-                addNewItem(newItem);
+                updateStore(newItem);
                 return;
             }
         }
         Toast.error("Impossible d'ajouter un nouvel item.");
     };
 
-    const addNewItem = (item: IItem) => {
+    const handleDeleteItem = ({ detail }: CustomEvent<IItem>) => {
+        updateStore(detail);
+    };
+
+    const updateStore = (item: IItem) => {
         triplistData.update((storedData) => {
             const currentCategory = storedData.apiData.categories.find((c) => c.id === category.id);
-            currentCategory.items.push(item);
+            const itemIndex = currentCategory.items.findIndex((storedItem) => storedItem.id === item.id);
+            if (itemIndex >= 0) {
+                currentCategory.items.splice(itemIndex, 1);
+            } else {
+                currentCategory.items.push(item);
+            }
             return storedData;
         });
     };
@@ -64,8 +73,8 @@
         <ConfirmedEditableText bind:value={category.label} on:datachange={handleDataChange} placeholder="Nom de la catégorie" />
     </DeleteWrapper>
 </tr>
-{#each category.items as item}
-    <TriplistItemRow {item} parentId={category.label} />
+{#each category.items as item (item.id)}
+    <TriplistItemRow {item} parentId={category.label} on:delete={handleDeleteItem} />
 {/each}
 <tr>
     <ConfirmedEditableText bind:value={newItemName} on:datachange={handleNewItem} placeholder="Nouvel item" />

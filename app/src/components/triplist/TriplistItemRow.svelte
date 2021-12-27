@@ -1,10 +1,18 @@
 <script lang="ts">
+    import { createEventDispatcher } from "svelte";
     import type { IItem } from "@common/models/IItem";
+    import ConfirmedEditableText from "../editableText/ConfirmedEditableText.svelte";
     import { SvgSource } from "../svg/SvgSource";
     import SvgIcon from "../SvgIcon.svelte";
+    import { itemIsValid, itemsAreEqual } from "common/dist/utils/itemUtils";
+    import { Toast } from "src/toast/Toast";
+    import DeleteWrapper from "../DeleteWrapper/DeleteWrapper.svelte";
+    import { api } from "./../../api";
 
     export let item: IItem;
     export let parentId: string = "";
+
+    const dispatch = createEventDispatcher();
 
     $: itemDetails = item.values?.map((value, index) => ({
         checked: value,
@@ -20,10 +28,34 @@
     const toggleCheckbox = (id: string) => {
         document.getElementById(id).click();
     };
+
+    const handleItemChange = async () => {
+        if (itemIsValid(item)) {
+            const updatedItem = await api.updateItem(item);
+            if (itemsAreEqual(item, updatedItem)) {
+                Toast.info("Modification complétée avec succès.");
+            } else {
+                if (itemIsValid(updatedItem)) {
+                    item = { ...updatedItem };
+                }
+                Toast.error("Une erreur est survenue au cours de la modification.");
+            }
+        }
+    };
+
+    const handleDelete = async () => {
+        await api.deleteItem(item);
+        Toast.info("Item supprimé avec succès.");
+        dispatch("delete", item);
+    };
 </script>
 
 <tr>
-    <td>{item.label}</td>
+    <td>
+        <DeleteWrapper toRight on:click={handleDelete}>
+            <ConfirmedEditableText bind:value={item.label} on:datachange={handleItemChange} />
+        </DeleteWrapper>
+    </td>
     {#each itemDetails as { checked, id }}
         <td>
             <input type="checkbox" {id} {checked} />
