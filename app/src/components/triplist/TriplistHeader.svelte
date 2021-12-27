@@ -31,7 +31,7 @@
 <thead>
     <tr>
         <th />
-        {#each activities as activity}
+        {#each activities as activity (activity.id)}
             <TriplistActivity {activity} on:requestupdate />
         {/each}
         <th>
