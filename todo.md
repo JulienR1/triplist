@@ -2,6 +2,6 @@
 
 - [ ] Reordoring
 - [ ] Filtering
-- [ ] Deployment
-- [ ] Modal pop-up on delete (toast++ ?)
+- [x] Deployment
+- [x] Modal pop-up on delete (toast++ ?)
 - [ ] Style update
