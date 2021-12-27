@@ -1,7 +1,7 @@
 name: Actions
 on: [push]
 jobs:
-    process:
+    build:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
@@ -11,15 +11,3 @@ jobs:
             - run: |
                   npm install
                   npm run build
-              working-directory: ./common
-              name: common
-            - run: |
-                  npm install
-                  npm run build
-              working-directory: ./app
-              name: web
-            - run: |
-                  npm install
-                  npm run build
-              working-directory: ./server
-              name: server
