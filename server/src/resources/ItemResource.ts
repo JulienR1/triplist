@@ -60,8 +60,40 @@ const updateItem = async ({ id, label, values }: IItem): Promise<IItem | undefin
     return updatedItem;
 };
 
+const checkItem = async (item: IItem): Promise<boolean[]> => {
+    let storedChecks: boolean[] = [];
+
+    await DatabaseHandler.useConnection(async (connection) => {
+        const [checkRows] = (await connection.execute("SELECT * FROM checked_items WHERE item_id = ?", [item.id])) as RowDataPacket[];
+        const checks = (checkRows as ICheckedItem[]).map((check) => ({ ...check, checked: new Boolean(check.checked).valueOf() }));
+
+        if (item.values.length !== checks.length) {
+            throw new Error("Inconsistent activity count when updating the checks.");
+        }
+
+        const promises = item.values
+            .map((value, index) => {
+                if (value !== checks[index].checked) {
+                    const { item_id, activity_id } = checks[index];
+                    if (value) {
+                        return connection.execute("INSERT INTO activityitem (item_id, activity_id) VALUES (?, ?)", [item_id, activity_id]);
+                    } else {
+                        return connection.execute("DELETE FROM activityitem WHERE item_id = ? AND activity_id = ?", [item_id, activity_id]);
+                    }
+                }
+            })
+            .filter((promise) => promise !== undefined);
+        await Promise.all(promises);
+
+        const [rawStoredChecks] = (await connection.execute("SELECT * FROM checked_items WHERE item_id = ?", [item.id])) as RowDataPacket[];
+        storedChecks = (rawStoredChecks as ICheckedItem[]).map((check) => new Boolean(check.checked).valueOf());
+    });
+
+    return storedChecks || Array(item.values.length).fill(false);
+};
+
 const deleteItem = async ({ id }: IItem): Promise<void> => {
     await DatabaseHandler.execute("DELETE FROM item WHERE id = ?", [id]);
 };
 
-export { getItemsForCategory, addItemToCategory, updateItem, deleteItem };
+export { getItemsForCategory, addItemToCategory, updateItem, checkItem, deleteItem };

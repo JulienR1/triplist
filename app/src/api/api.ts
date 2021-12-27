@@ -40,6 +40,10 @@ const updateItem = async (data: IItem): Promise<IItem> => {
     return makeRequest<IItem>("/item", RequestMethod.POST, { ...data });
 };
 
+const checkItem = async (data: IItem): Promise<boolean[]> => {
+    return makeRequest<boolean[]>("/item/check", RequestMethod.POST, { ...data });
+};
+
 const deleteItem = async (data: IItem): Promise<void> => {
     return makeRequest<void>("/item", RequestMethod.DELETE, { ...data });
 };
@@ -65,4 +69,4 @@ const makeRequest = async <T>(route: string, method = RequestMethod.GET, body?: 
     return response.ok ? response.json() : undefined;
 };
 
-export { fetchTriplist, updateActivity, createActivity, deleteActivity, updateCategory, createCategory, deleteCategory, createItem, updateItem, deleteItem };
+export { fetchTriplist, updateActivity, createActivity, deleteActivity, updateCategory, createCategory, deleteCategory, createItem, updateItem, deleteItem, checkItem };

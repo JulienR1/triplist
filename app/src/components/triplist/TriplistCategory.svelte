@@ -74,7 +74,7 @@
     </DeleteWrapper>
 </tr>
 {#each category.items as item (item.id)}
-    <TriplistItemRow {item} parentId={category.label} on:delete={handleDeleteItem} />
+    <TriplistItemRow {item} on:delete={handleDeleteItem} />
 {/each}
 <tr>
     <ConfirmedEditableText bind:value={newItemName} on:datachange={handleNewItem} placeholder="Nouvel item" />

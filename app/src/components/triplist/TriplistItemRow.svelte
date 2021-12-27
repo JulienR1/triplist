@@ -5,28 +5,19 @@
     import { SvgSource } from "../svg/SvgSource";
     import SvgIcon from "../SvgIcon.svelte";
     import { itemIsValid, itemsAreEqual } from "common/dist/utils/itemUtils";
+    import { arraysAreEqual } from "common/dist/utils/utils";
     import { Toast } from "src/toast/Toast";
     import DeleteWrapper from "../DeleteWrapper/DeleteWrapper.svelte";
     import { api } from "./../../api";
 
     export let item: IItem;
-    export let parentId: string = "";
 
     const dispatch = createEventDispatcher();
 
-    $: itemDetails = item.values?.map((value, index) => ({
-        checked: value,
-        id: `${parentId}${item.label}${index}`,
-    }));
-
-    const onKeyPress = (event: KeyboardEvent, id: string) => {
+    const onKeyPress = (event: KeyboardEvent) => {
         if (event.key === "Enter") {
-            toggleCheckbox(id);
+            (event.target as HTMLElement).click();
         }
-    };
-
-    const toggleCheckbox = (id: string) => {
-        document.getElementById(id).click();
     };
 
     const handleItemChange = async () => {
@@ -39,6 +30,19 @@
                     item = { ...updatedItem };
                 }
                 Toast.error("Une erreur est survenue au cours de la modification.");
+            }
+        }
+    };
+
+    const handleToggle = async (event: Event) => {
+        if (itemIsValid(item)) {
+            const savedChecks = await api.checkItem(item);
+            if (!arraysAreEqual(savedChecks, item.values)) {
+                if (savedChecks) {
+                    item.values = savedChecks;
+                } else {
+                    Toast.error("Erreur, la saisie n'a pas été prise en compte.");
+                }
             }
         }
     };
@@ -56,10 +60,10 @@
             <ConfirmedEditableText bind:value={item.label} on:datachange={handleItemChange} />
         </DeleteWrapper>
     </td>
-    {#each itemDetails as { checked, id }}
+    {#each item.values as checked}
         <td>
-            <input type="checkbox" {id} {checked} />
-            <label tabindex="0" for={id} on:keypress|preventDefault={(event) => onKeyPress(event, id)}>
+            <label class:checked tabindex="0" on:keypress|preventDefault={(event) => onKeyPress(event)}>
+                <input type="checkbox" bind:checked on:change={handleToggle} />
                 <div>
                     <SvgIcon src={SvgSource.CHECK} size={14} color={"var(--dark-blue)"} />
                 </div>
@@ -99,16 +103,8 @@
         &:focus-visible {
             outline: none;
         }
-    }
 
-    input {
-        width: 0;
-        height: 0;
-        opacity: 0;
-        visibility: hidden;
-        position: absolute;
-
-        &:checked + label {
+        &.checked {
             border-color: var(--light-blue);
             background-color: var(--light-blue);
 
@@ -122,5 +118,13 @@
                 box-shadow: 0 0 4px var(--dark-blue);
             }
         }
+    }
+
+    input {
+        width: 0;
+        height: 0;
+        opacity: 0;
+        visibility: hidden;
+        position: absolute;
     }
 </style>
