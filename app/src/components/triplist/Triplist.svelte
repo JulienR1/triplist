@@ -66,8 +66,6 @@
                 apiStoreData.categories.splice(index, 1);
             }
 
-            // TODO: complete fct
-
             return storedData;
         });
     };

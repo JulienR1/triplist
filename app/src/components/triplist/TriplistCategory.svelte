@@ -7,10 +7,14 @@
     import TriplistItemRow from "./TriplistItemRow.svelte";
     import type { ICategory } from "@common/models/ICategory";
     import { categoriesAreEqual, categoryIsValid } from "common/dist/utils/categoryUtils";
-
-    export let category: ICategory;
+    import { stringIsValid } from "common/dist/utils/baseValidators";
+    import type { IItem } from "@common/models/IItem";
+    import { triplistData } from "./triplistStore";
 
     const dispatch = createEventDispatcher();
+
+    export let category: ICategory;
+    let newItemName: string = "";
 
     const handleDataChange = async () => {
         const updatedCategory = await api.updateCategory(category);
@@ -30,6 +34,29 @@
         Toast.info("Catégorie supprimée.");
         dispatch("requestupdate", category);
     };
+
+    const handleNewItem = async () => {
+        const storedItemName = newItemName;
+        newItemName = "";
+
+        if (stringIsValid(storedItemName)) {
+            const newItem = await api.createItem(category, storedItemName);
+            if (newItem?.label === storedItemName) {
+                Toast.info("Nouvel item ajouté.");
+                addNewItem(newItem);
+                return;
+            }
+        }
+        Toast.error("Impossible d'ajouter un nouvel item.");
+    };
+
+    const addNewItem = (item: IItem) => {
+        triplistData.update((storedData) => {
+            const currentCategory = storedData.apiData.categories.find((c) => c.id === category.id);
+            currentCategory.items.push(item);
+            return storedData;
+        });
+    };
 </script>
 
 <tr>
@@ -40,5 +67,8 @@
 {#each category.items as item}
     <TriplistItemRow {item} parentId={category.label} />
 {/each}
+<tr>
+    <ConfirmedEditableText bind:value={newItemName} on:datachange={handleNewItem} placeholder="Nouvel item" />
+</tr>
 
 <style lang="scss"></style>

@@ -2,6 +2,7 @@ import type { ITripList } from "@common/models/ITripList";
 import type { IActivity } from "@common/models/IActivity";
 import { RequestMethod } from "./requestMethod";
 import type { ICategory } from "@common/models/ICategory";
+import type { IItem } from "@common/models/IItem";
 
 const fetchTriplist = (): Promise<ITripList | undefined> => {
     return makeRequest<ITripList>("/");
@@ -31,6 +32,10 @@ const deleteCategory = async (data: ICategory): Promise<void> => {
     return makeRequest<void>("/category", RequestMethod.DELETE, { ...data });
 };
 
+const createItem = async (category: ICategory, itemName: string): Promise<IItem> => {
+    return makeRequest<IItem>("/item", RequestMethod.PUT, { category, itemName });
+};
+
 const makeRequest = async <T>(route: string, method = RequestMethod.GET, body?: string | { [key: string]: unknown }): Promise<T | undefined> => {
     const { env } = process;
     if (!env.SERVER_URL) {
@@ -52,4 +57,4 @@ const makeRequest = async <T>(route: string, method = RequestMethod.GET, body?: 
     return response.ok ? response.json() : undefined;
 };
 
-export { fetchTriplist, updateActivity, createActivity, deleteActivity, updateCategory, createCategory, deleteCategory };
+export { fetchTriplist, updateActivity, createActivity, deleteActivity, updateCategory, createCategory, deleteCategory, createItem };
