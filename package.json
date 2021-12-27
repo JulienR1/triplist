@@ -1,18 +1,18 @@
 {
-	"name": "triplist",
-	"version": "0.1.0",
-	"description": "A small projet to never forget what items are necessary for different trip.",
-	"main": "index.js",
-	"scripts": {
-		"start": "concurrently \"cd app && npm run start\" \"cd server && npm run start\"",
-		"build": "cd app && npm run build && cd ../server && npm run build && cd ..",
-		"dev:app": "cd app && npm run dev",
-		"dev:server": "cd server && npm run dev"
-	},
-	"keywords": [],
-	"author": "",
-	"license": "ISC",
-	"devDependencies": {
-		"concurrently": "^6.4.0"
-	}
+    "name": "triplist",
+    "version": "0.1.0",
+    "description": "A small projet to never forget what items are necessary for different trip.",
+    "main": "index.js",
+    "scripts": {
+        "start": "concurrently \"cd app && npm run start\" \"cd server && npm run start\"",
+        "build": "cd common && npm run build && cd ../app && npm run build && cd ../server && npm run build && cd ..",
+        "dev:app": "cd app && npm run dev",
+        "dev:server": "cd server && npm run dev"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "concurrently": "^6.4.0"
+    }
 }
