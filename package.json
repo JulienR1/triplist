@@ -1,6 +1,6 @@
 {
     "name": "triplist",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "A small projet to never forget what items are necessary for different trip.",
     "main": "index.js",
     "scripts": {
