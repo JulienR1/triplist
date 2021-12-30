@@ -5,13 +5,18 @@ import { positiveIntegerIsValid } from "common/dist/utils/baseValidators";
 import { RowDataPacket } from "mysql2";
 import { DatabaseHandler } from "./../persistance/databasehandler";
 
-const getItemsForCategory = async ({ id }: ICategory): Promise<IItem[] | undefined> => {
+const getItemsForCategory = async (activityFilters: string[], { id }: ICategory): Promise<IItem[] | undefined> => {
     if (positiveIntegerIsValid(id)) {
         let items: IItem[] | undefined = undefined;
 
         await DatabaseHandler.useConnection(async (connection) => {
+            const checksParams = activityFilters.length > 0 ? [id, ...activityFilters] : [id];
+            const checksQuery = `SELECT * FROM checked_items WHERE category_id = ? ${
+                activityFilters.length > 0 ? `AND activity_id IN (SELECT id FROM activity WHERE label IN (${Array(activityFilters.length).fill("?").join(",")}))` : ""
+            }`;
+
             const itemsPromise = connection.execute("SELECT * FROM item WHERE category_id = ?", [id]);
-            const checksPromise = connection.execute("SELECT * FROM checked_items WHERE category_id = ?", [id]);
+            const checksPromise = connection.execute(checksQuery, checksParams);
             const [[rawItems], [rawChecks]] = await Promise.all([itemsPromise, checksPromise]);
 
             if (rawItems && rawChecks) {
