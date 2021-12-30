@@ -8,6 +8,7 @@
     import { Toast } from "../../toast/Toast";
 
     export let activities: IActivity[];
+    export let disabled = false;
     let newActivityName: string = "";
 
     const dispatch = createEventDispatcher();
@@ -32,11 +33,13 @@
     <tr>
         <th />
         {#each activities as activity (activity.id)}
-            <TriplistActivity {activity} on:requestupdate />
+            <TriplistActivity {activity} {disabled} on:requestupdate />
         {/each}
-        <th>
-            <ConfirmedEditableText bind:value={newActivityName} placeholder="Nouvelle activité" on:datachange={handleNewActivity} />
-        </th>
+        {#if !disabled}
+            <th>
+                <ConfirmedEditableText bind:value={newActivityName} placeholder="Nouvelle activité" on:datachange={handleNewActivity} />
+            </th>
+        {/if}
     </tr>
 </thead>
 

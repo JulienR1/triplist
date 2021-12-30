@@ -57,16 +57,14 @@
 </script>
 
 <section>
-    {#if $triplistData.apiData}
+    {#if $triplistData.filteredData || $triplistData.apiData}
         <table id="triplist">
-            <TriplistHeader activities={$triplistData.apiData.activities} on:requestupdate={updateActivities} />
-            <TriplistBody categories={$triplistData.apiData.categories} on:requestupdate={updateCategories} />
+            <TriplistHeader activities={($triplistData.filteredData || $triplistData.apiData).activities} disabled={$triplistData.filteredData !== undefined} on:requestupdate={updateActivities} />
+            <TriplistBody categories={($triplistData.filteredData || $triplistData.apiData).categories} disabled={$triplistData.filteredData !== undefined} on:requestupdate={updateCategories} />
         </table>
     {:else if $triplistData.error}
         <UnknownError onRetry={callTriplistApi} />
     {:else}
         <Loader />
     {/if}
-
-    <pre>{JSON.stringify($triplistData.filteredData, null, 2)}</pre>
 </section>

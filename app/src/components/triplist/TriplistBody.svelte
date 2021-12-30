@@ -10,6 +10,7 @@
     const dispatch = createEventDispatcher();
 
     export let categories: ICategory[];
+    export let disabled = false;
     let newCategoryName = "";
 
     const handleDataChange = async () => {
@@ -30,11 +31,13 @@
 
 <tbody>
     {#each categories as category (category.id)}
-        <TriplistCategory {category} on:requestupdate />
+        <TriplistCategory {category} {disabled} on:requestupdate />
     {/each}
-    <tr>
-        <ConfirmedEditableText bind:value={newCategoryName} on:datachange={handleDataChange} placeholder="Nouvelle catégorie" />
-    </tr>
+    {#if !disabled}
+        <tr>
+            <ConfirmedEditableText bind:value={newCategoryName} on:datachange={handleDataChange} placeholder="Nouvelle catégorie" />
+        </tr>
+    {/if}
 </tbody>
 
 <style lang="scss"></style>

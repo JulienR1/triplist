@@ -11,6 +11,7 @@
     import { api } from "./../../api";
 
     export let item: IItem;
+    export let disabled = false;
 
     const dispatch = createEventDispatcher();
 
@@ -56,8 +57,8 @@
 
 <tr>
     <td>
-        <DeleteWrapper toRight on:click={handleDelete}>
-            <ConfirmedEditableText bind:value={item.label} on:datachange={handleItemChange} />
+        <DeleteWrapper toRight {disabled} on:click={handleDelete}>
+            <ConfirmedEditableText {disabled} bind:value={item.label} on:datachange={handleItemChange} />
         </DeleteWrapper>
     </td>
     {#each item.values as checked}
