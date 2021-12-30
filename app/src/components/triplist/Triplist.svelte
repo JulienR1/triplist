@@ -1,7 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import { api } from "./../../api/";
-    import { ITriplistStore, triplistData } from "./triplistStore";
+    import { callTriplistApi, triplistData } from "./triplistStore";
 
     import Loader from "./../Loader.svelte";
     import TriplistBody from "./TriplistBody.svelte";
@@ -10,21 +9,7 @@
     import type { IActivity } from "@common/models/IActivity";
     import type { ICategory } from "@common/models/ICategory";
 
-    let isLoading = false;
-    onMount(() => callApi());
-
-    const callApi = async () => {
-        isLoading = true;
-        let apiStoreData: ITriplistStore = { apiData: undefined, error: undefined };
-        try {
-            apiStoreData.apiData = await api.fetchTriplist();
-        } catch (err) {
-            apiStoreData.error = err;
-        } finally {
-            triplistData.set(apiStoreData);
-            isLoading = false;
-        }
-    };
+    onMount(() => callTriplistApi());
 
     const updateActivities = async ({ detail: activity }: CustomEvent<IActivity>) => {
         triplistData.update((storedData) => {
@@ -72,14 +57,16 @@
 </script>
 
 <section>
-    {#if isLoading}
-        <Loader />
-    {:else if $triplistData.apiData}
+    {#if $triplistData.apiData}
         <table id="triplist">
             <TriplistHeader activities={$triplistData.apiData.activities} on:requestupdate={updateActivities} />
             <TriplistBody categories={$triplistData.apiData.categories} on:requestupdate={updateCategories} />
         </table>
     {:else if $triplistData.error}
-        <UnknownError onRetry={callApi} />
+        <UnknownError onRetry={callTriplistApi} />
+    {:else}
+        <Loader />
     {/if}
+
+    <pre>{JSON.stringify($triplistData.filteredData, null, 2)}</pre>
 </section>

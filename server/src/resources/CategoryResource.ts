@@ -1,11 +1,12 @@
 import { ICategory } from "@common/models/ICategory";
 import { IItem } from "@common/models/IItem";
 import { RowDataPacket } from "mysql2";
-import { DatabaseHandler } from "src/persistance/databasehandler";
+import { DatabaseHandler } from "../persistance/databasehandler";
 import { getItemsForCategory } from "./ItemResource";
 
-const getCategories = async (): Promise<ICategory[]> => {
-    const [rows] = (await DatabaseHandler.execute("SELECT * FROM category")) as RowDataPacket[];
+const getCategories = async (filters: string[]): Promise<ICategory[]> => {
+    const query = `SELECT * FROM category ${filters.length > 0 ? `WHERE label IN (${Array(filters.length).fill("?").join(",")})` : ""}`;
+    const [rows] = (await DatabaseHandler.execute(query, filters.length > 0 ? filters : undefined)) as RowDataPacket[];
 
     const itemPromises: Promise<IItem>[] = rows.map((category: ICategory) => getItemsForCategory(category));
     const items = await Promise.all(itemPromises);

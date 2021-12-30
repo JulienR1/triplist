@@ -1,7 +1,7 @@
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
     import { api } from "./../../api";
-    import { Toast } from "src/toast/Toast";
+    import { Toast } from "../../toast/Toast";
     import type { IActivity } from "@common/models/IActivity";
     import ConfirmedEditableText from "../editableText/ConfirmedEditableText.svelte";
     import { activitiesAreEqual, activityIsValid } from "common/dist/utils/activityUtils";

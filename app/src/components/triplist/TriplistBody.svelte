@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { api } from "src/api";
-    import { Toast } from "src/toast/Toast";
+    import { api } from "../../api";
+    import { Toast } from "../../toast/Toast";
     import { createEventDispatcher } from "svelte";
     import type { ICategory } from "@common/models/ICategory";
     import { stringIsValid } from "common/dist/utils/baseValidators";

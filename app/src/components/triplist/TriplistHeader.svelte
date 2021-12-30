@@ -4,8 +4,8 @@
     import ConfirmedEditableText from "../editableText/ConfirmedEditableText.svelte";
     import { stringIsValid } from "common/dist/utils/baseValidators";
     import TriplistActivity from "./TriplistActivity.svelte";
-    import { api } from "src/api";
-    import { Toast } from "src/toast/Toast";
+    import { api } from "../../api";
+    import { Toast } from "../../toast/Toast";
 
     export let activities: IActivity[];
     let newActivityName: string = "";

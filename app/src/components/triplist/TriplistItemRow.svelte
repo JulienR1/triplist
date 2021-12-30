@@ -6,8 +6,8 @@
     import SvgIcon from "../SvgIcon.svelte";
     import { itemIsValid, itemsAreEqual } from "common/dist/utils/itemUtils";
     import { arraysAreEqual } from "common/dist/utils/utils";
-    import { Toast } from "src/toast/Toast";
     import DeleteWrapper from "../DeleteWrapper/DeleteWrapper.svelte";
+    import { Toast } from "../../toast/Toast";
     import { api } from "./../../api";
 
     export let item: IItem;

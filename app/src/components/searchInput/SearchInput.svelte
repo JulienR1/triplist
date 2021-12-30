@@ -24,7 +24,7 @@
                 .filter((text) => text !== ""),
         }));
 
-    const handleNavigationKey = ({ key }: KeyboardEvent) => {
+    const handleNavigationKey = (event: KeyboardEvent) => {
         const setNewIndex = (targetNewIndex: number) => {
             if (targetNewIndex !== currentOptionIndex) {
                 currentOptionIndex = Math.min(optionsContainer.childNodes.length, Math.max(0, targetNewIndex));
@@ -32,10 +32,12 @@
             }
         };
 
-        if (key === "ArrowUp") {
+        if (event.key === "ArrowUp") {
             setNewIndex(currentOptionIndex - 1);
-        } else if (key === "ArrowDown") {
+            event.preventDefault();
+        } else if (event.key === "ArrowDown") {
             setNewIndex(currentOptionIndex + 1);
+            event.preventDefault();
         }
     };
 
@@ -71,8 +73,9 @@
 
     const submitValue = () => {
         if (options[currentOptionIndex] === userInput || options.find((option) => option === userInput)) {
-            inputField.blur();
             dispatch("select", userInput);
+            inputField.blur();
+            userInput = "";
         } else {
             dispatch("deny");
         }
