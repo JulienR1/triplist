@@ -10,7 +10,9 @@
     <ToastContainer>
         <main>
             <h1>Triplist</h1>
+            <hr />
             <Filterbar />
+            <hr />
             <Triplist />
         </main>
     </ToastContainer>
@@ -19,5 +21,23 @@
 <style lang="scss">
     main {
         padding: 2em;
+
+        hr {
+            position: relative;
+            width: 50vw;
+            border: none;
+            height: 3vw;
+
+            &::after {
+                content: "";
+                width: 100%;
+                height: 1px;
+                display: block;
+                position: absolute;
+                background-color: var(--transparent-background);
+                top: 50%;
+                transform: translateY(-50%);
+            }
+        }
     }
 </style>
