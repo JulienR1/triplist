@@ -82,7 +82,7 @@
     };
 </script>
 
-<div class="search-input" on:keydown={handleNavigationKey}>
+<div class="search-input" on:keydown={handleNavigationKey} on:click={(e) => e.stopPropagation()}>
     <input type="text" bind:value={userInput} {placeholder} tabindex="0" on:keydown={handleSubmitPressed} bind:this={inputField} />
     <ul class="options" bind:this={optionsContainer}>
         {#each formattedOptions as option (option.id)}
@@ -107,7 +107,10 @@
     }
 
     input {
-        width: 100%;
+        height: 100%;
+        padding-left: 3px;
+        width: calc(100% - 5px);
+        border: 1px solid var(--dark-grey);
     }
 
     .options {
