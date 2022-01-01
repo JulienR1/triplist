@@ -5,4 +5,5 @@ export enum SvgSource {
     DELETE = "./assets/delete.svg",
     FILTER = "./assets/filter.svg",
     ADD = "./assets/add.svg",
+    DRAG = "./assets/drag.svg",
 }
