@@ -22,6 +22,11 @@ a {
 	text-decoration: none;
 }
 
+section {
+	margin: 0 auto;
+	width: fit-content;
+}
+
 @mixin sticky-control {
 	text-align: center;
 	position: sticky;
