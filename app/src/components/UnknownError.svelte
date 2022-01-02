@@ -18,7 +18,7 @@
 
 <style lang="scss">
 	.unknown-error {
-		@import "../styles/style.scss";
+		@import "../styles/sticky.scss";
 		@include sticky-control;
 
 		figure {

@@ -26,11 +26,3 @@ section {
 	margin: 0 auto;
 	width: fit-content;
 }
-
-@mixin sticky-control {
-	text-align: center;
-	position: sticky;
-	display: block;
-	margin: 0 auto;
-	top: 12%;
-}
