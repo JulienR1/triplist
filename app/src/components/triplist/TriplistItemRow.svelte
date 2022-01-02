@@ -63,7 +63,7 @@
 <tr>
 	<td>
 		<DeleteWrapper toRight {disabled} on:click={handleDelete}>
-			<ConfirmedEditableText {disabled} bind:value={item.label} on:datachange={handleItemChange} />
+			<ConfirmedEditableText {disabled} hideBorder bind:value={item.label} on:datachange={handleItemChange} />
 		</DeleteWrapper>
 	</td>
 	{#each item.values as checked}
@@ -79,10 +79,24 @@
 </tr>
 
 <style lang="scss">
+	tr {
+		transition: background-color 0.3s ease;
+
+		&:hover,
+		&:focus,
+		&:focus-within {
+			background-color: var(--grey-white);
+		}
+	}
+
+	td:first-of-type {
+		transform: translateX(12px);
+	}
+
 	label {
 		--size: 12px;
 
-		margin: 0;
+		margin: 0 auto;
 		padding: 0;
 		display: flex;
 		justify-content: center;
