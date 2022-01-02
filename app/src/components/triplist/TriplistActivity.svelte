@@ -1,13 +1,14 @@
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
     import { api } from "./../../api";
-    import { Toast } from "src/toast/Toast";
+    import { Toast } from "../../toast/Toast";
     import type { IActivity } from "@common/models/IActivity";
     import ConfirmedEditableText from "../editableText/ConfirmedEditableText.svelte";
     import { activitiesAreEqual, activityIsValid } from "common/dist/utils/activityUtils";
     import DeleteWrapper from "../DeleteWrapper/DeleteWrapper.svelte";
 
     export let activity: IActivity;
+    export let disabled = false;
 
     const dispatch = createEventDispatcher();
 
@@ -32,8 +33,8 @@
 </script>
 
 <th>
-    <DeleteWrapper on:click={handleDelete}>
-        <ConfirmedEditableText bind:value={activity.label} on:datachange={handleDataChange} />
+    <DeleteWrapper {disabled} on:click={handleDelete}>
+        <ConfirmedEditableText {disabled} bind:value={activity.label} on:datachange={handleDataChange} />
     </DeleteWrapper>
 </th>
 

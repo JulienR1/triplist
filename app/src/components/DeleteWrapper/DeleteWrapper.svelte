@@ -7,6 +7,7 @@
     const dispatch = createEventDispatcher();
 
     export let toRight = false;
+    export let disabled = false;
 
     const handleClick = (event: Event) => {
         new Promise<void>((resolve, reject) => {
@@ -28,9 +29,11 @@
 
 <div class="delete-wrapper">
     <slot />
-    <button on:click={handleClick} class:toRight>
-        <SvgIcon src={SvgSource.DELETE} color={"var(--dark-red)"} size={18} />
-    </button>
+    {#if !disabled}
+        <button on:click={handleClick} class:toRight>
+            <SvgIcon src={SvgSource.DELETE} color={"var(--dark-red)"} size={18} />
+        </button>
+    {/if}
 </div>
 
 <style lang="scss">

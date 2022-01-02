@@ -2,8 +2,9 @@ import { RowDataPacket } from "mysql2";
 import { IActivity } from "@common/models/IActivity";
 import { DatabaseHandler } from "../persistance/databasehandler";
 
-const getActivities = async (): Promise<IActivity[]> => {
-    const [rows] = (await DatabaseHandler.execute("SELECT * FROM activity")) as RowDataPacket[];
+const getActivities = async (filters: string[]): Promise<IActivity[]> => {
+    const query = `SELECT * FROM activity ${filters.length > 0 ? `WHERE label IN (${Array(filters.length).fill("?").join(",")})` : ""}`;
+    const [rows] = (await DatabaseHandler.execute(query, filters.length > 0 ? filters : undefined)) as RowDataPacket[];
     return rows as IActivity[];
 };
 

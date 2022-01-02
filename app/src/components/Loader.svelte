@@ -14,7 +14,7 @@
 
 <style lang="scss">
 	.loader {
-		@import "../styles/style.scss";
+		@import "../styles/sticky.scss";
 		@include sticky-control;
 	}
 

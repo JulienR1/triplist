@@ -8,6 +8,10 @@ const fetchTriplist = (): Promise<ITripList | undefined> => {
     return makeRequest<ITripList>("/");
 };
 
+const filterTriplist = (filters: string[]): Promise<ITripList | undefined> => {
+    return makeRequest<ITripList>(`/?filters=${filters.join(",")}`);
+};
+
 const updateActivity = async (data: IActivity): Promise<IActivity> => {
     return makeRequest<IActivity>("/activity", RequestMethod.POST, { ...data });
 };
@@ -69,4 +73,4 @@ const makeRequest = async <T>(route: string, method = RequestMethod.GET, body?: 
     return response.ok ? response.json() : undefined;
 };
 
-export { fetchTriplist, updateActivity, createActivity, deleteActivity, updateCategory, createCategory, deleteCategory, createItem, updateItem, deleteItem, checkItem };
+export { fetchTriplist, filterTriplist, updateActivity, createActivity, deleteActivity, updateCategory, createCategory, deleteCategory, createItem, updateItem, deleteItem, checkItem };

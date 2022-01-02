@@ -14,6 +14,7 @@
     const dispatch = createEventDispatcher();
 
     export let category: ICategory;
+    export let disabled = false;
     let newItemName: string = "";
 
     const handleDataChange = async () => {
@@ -69,15 +70,17 @@
 </script>
 
 <tr>
-    <DeleteWrapper on:click={handleDelete} toRight={true}>
-        <ConfirmedEditableText bind:value={category.label} on:datachange={handleDataChange} placeholder="Nom de la catégorie" />
+    <DeleteWrapper on:click={handleDelete} toRight={true} {disabled}>
+        <ConfirmedEditableText bind:value={category.label} {disabled} on:datachange={handleDataChange} placeholder="Nom de la catégorie" />
     </DeleteWrapper>
 </tr>
 {#each category.items as item (item.id)}
-    <TriplistItemRow {item} on:delete={handleDeleteItem} />
+    <TriplistItemRow {item} {disabled} on:delete={handleDeleteItem} />
 {/each}
-<tr>
-    <ConfirmedEditableText bind:value={newItemName} on:datachange={handleNewItem} placeholder="Nouvel item" />
-</tr>
+{#if !disabled}
+    <tr>
+        <ConfirmedEditableText bind:value={newItemName} on:datachange={handleNewItem} placeholder="Nouvel item" />
+    </tr>
+{/if}
 
 <style lang="scss"></style>

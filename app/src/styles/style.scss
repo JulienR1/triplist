@@ -22,10 +22,7 @@ a {
 	text-decoration: none;
 }
 
-@mixin sticky-control {
-	text-align: center;
-	position: sticky;
-	display: block;
+section {
 	margin: 0 auto;
-	top: 12%;
+	width: fit-content;
 }

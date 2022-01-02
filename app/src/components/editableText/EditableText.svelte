@@ -5,6 +5,7 @@
     export let value: string;
     export let editableTextID: {};
     export let placeholder = undefined;
+    export let disabled = false;
 
     const dispatch = createEventDispatcher();
 
@@ -39,6 +40,9 @@
     };
 
     const startEditing = () => {
+        if (disabled) {
+            return;
+        }
         if (!editing) {
             editing = true;
         }

@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { api } from "src/api";
-    import { Toast } from "src/toast/Toast";
+    import { api } from "../../api";
+    import { Toast } from "../../toast/Toast";
     import { createEventDispatcher } from "svelte";
     import type { ICategory } from "@common/models/ICategory";
     import { stringIsValid } from "common/dist/utils/baseValidators";
@@ -10,6 +10,7 @@
     const dispatch = createEventDispatcher();
 
     export let categories: ICategory[];
+    export let disabled = false;
     let newCategoryName = "";
 
     const handleDataChange = async () => {
@@ -30,11 +31,13 @@
 
 <tbody>
     {#each categories as category (category.id)}
-        <TriplistCategory {category} on:requestupdate />
+        <TriplistCategory {category} {disabled} on:requestupdate />
     {/each}
-    <tr>
-        <ConfirmedEditableText bind:value={newCategoryName} on:datachange={handleDataChange} placeholder="Nouvelle catégorie" />
-    </tr>
+    {#if !disabled}
+        <tr>
+            <ConfirmedEditableText bind:value={newCategoryName} on:datachange={handleDataChange} placeholder="Nouvelle catégorie" />
+        </tr>
+    {/if}
 </tbody>
 
 <style lang="scss"></style>

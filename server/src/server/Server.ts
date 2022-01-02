@@ -1,6 +1,6 @@
 import express, { json } from "express";
 import cors, { CorsOptions } from "cors";
-import { BaseRouterHandler } from "src/routes/BaseRouterHandler";
+import { BaseRouterHandler } from "../routes/BaseRouterHandler";
 
 export class Server {
 	private corsOptions: CorsOptions = {
