@@ -5,3 +5,6 @@
 	"init/removeItemChecks_trigger",
 	"init/clearCategoryItems_trigger",
 	"init/view_checked_items",
+	"0.1.1/alter_category",
+	"0.1.1/category_ordering_triggers"
+]
