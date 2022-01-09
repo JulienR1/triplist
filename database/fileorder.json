@@ -6,5 +6,9 @@
 	"init/clearCategoryItems_trigger",
 	"init/view_checked_items",
 	"0.1.1/alter_category",
-	"0.1.1/category_ordering_triggers"
+	"0.1.1/alter_activity",
+	"0.1.1/category_ordering_triggers",
+	"0.1.1/activity_ordering_triggers",
+	"0.1.1/update_category_position_procedure",
+	"0.1.1/update_activity_position_procedure"
 ]
