@@ -13,7 +13,7 @@ const getItemsForCategory = async (activityFilters: string[], { id }: ICategory)
 			const hasFilters = activityFilters.length > 0;
 
 			const [rawActivityIds] = (await connection.execute(
-				`SELECT id FROM activity ${
+				`SELECT id FROM activity_data ${
 					hasFilters ? `WHERE label IN (${Array(activityFilters.length).fill("?").join(",")})` : ""
 				}`,
 				hasFilters ? activityFilters : undefined
@@ -26,7 +26,7 @@ const getItemsForCategory = async (activityFilters: string[], { id }: ICategory)
 			}`;
 
 			const itemsPromise = connection.execute(
-				`SELECT DISTINCT i.* FROM item i ${
+				`SELECT DISTINCT i.* FROM item_data i ${
 					hasFilters
 						? `JOIN checked_items ci ON i.id = ci.item_id AND checked = TRUE AND activity_id IN (${Array(
 								activityIds.length
@@ -34,7 +34,7 @@ const getItemsForCategory = async (activityFilters: string[], { id }: ICategory)
 								.fill("?")
 								.join(",")})`
 						: ""
-				} WHERE i.category_id = ?`,
+				} WHERE i.category_id = ? ORDER BY position`,
 				hasFilters ? [...activityIds, id] : [id]
 			);
 			const checksPromise = connection.execute(checksQuery, checksParams);
