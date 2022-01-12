@@ -77,3 +77,16 @@
 		<Loader />
 	{/if}
 </section>
+
+<style lang="scss">
+	section {
+		display: block;
+		position: relative;
+		overflow: auto;
+		max-height: calc(90vh - 6vw);
+	}
+	table {
+		border-collapse: collapse;
+		width: 100%;
+	}
+</style>

@@ -135,6 +135,7 @@
 		.search {
 			display: flex;
 			margin: 0 2px;
+			z-index: 2;
 
 			button {
 				width: 100%;
