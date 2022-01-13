@@ -44,5 +44,3 @@
 		</tr>
 	{/if}
 </tbody>
-
-<style lang="scss"></style>

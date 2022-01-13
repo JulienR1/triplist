@@ -5,8 +5,8 @@ import { DatabaseHandler } from "../persistance/databasehandler";
 import { getItemsForCategory } from "./ItemResource";
 
 const getCategories = async (filters: string[]): Promise<ICategory[]> => {
-	const baseQuery = "SELECT * FROM category";
-	const filteredQuery = `SELECT DISTINCT c.* FROM category c JOIN checked_items ci ON c.id = ci.category_id AND checked = TRUE JOIN activity a ON a.id = ci.activity_id AND a.label IN (${Array(
+	const baseQuery = "SELECT * FROM category_data";
+	const filteredQuery = `SELECT DISTINCT c.* FROM category_data c JOIN checked_items ci ON c.id = ci.category_id AND checked = TRUE JOIN activity a ON a.id = ci.activity_id AND a.label IN (${Array(
 		filters.length
 	)
 		.fill("?")
