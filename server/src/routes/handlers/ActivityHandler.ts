@@ -1,8 +1,12 @@
 import { Router, Request, Response } from "express";
 import { IActivity } from "@common/models/IActivity";
-import { addActivity, getActivityById, removeActivity, updateActivity } from "../../resources/ActivityResource";
-import { activityIsValid } from "common/dist/utils/activityUtils";
-import { stringIsValid } from "common/dist/utils/baseValidators";
+import {
+    addActivity,
+    getActivityById,
+    removeActivity,
+    updateActivity,
+} from "../../resources/ActivityResource";
+import { stringIsValid, activityIsValid } from "common";
 import { RouterHandler } from "../RouterHandler";
 
 export class ActivityHandler extends RouterHandler {

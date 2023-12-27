@@ -1,11 +1,14 @@
 import { ICategory } from "@common/models/ICategory";
 import { IItem } from "@common/models/IItem";
-import { storedStringIsValid } from "common/dist/utils/baseValidators";
-import { categoryIsValid } from "common/dist/utils/categoryUtils";
+import { categoryIsValid, itemIsValid, storedStringIsValid } from "common";
 import { Request, Response, Router } from "express";
-import { addItemToCategory, checkItem, deleteItem, updateItem } from "../../resources/ItemResource";
+import {
+    addItemToCategory,
+    checkItem,
+    deleteItem,
+    updateItem,
+} from "../../resources/ItemResource";
 import { RouterHandler } from "../RouterHandler";
-import { itemIsValid } from "common/dist/utils/itemUtils";
 
 export class ItemHandler extends RouterHandler {
     constructor() {
@@ -39,16 +42,19 @@ export class ItemHandler extends RouterHandler {
             res.sendStatus(400);
         });
 
-        router.post(`${this.route}/check`, async ({ body }: Request, res: Response) => {
-            const itemBody = body as IItem;
+        router.post(
+            `${this.route}/check`,
+            async ({ body }: Request, res: Response) => {
+                const itemBody = body as IItem;
 
-            if (itemIsValid(itemBody)) {
-                const storedChecks = await checkItem(itemBody);
-                return res.json(storedChecks).status(200);
-            }
+                if (itemIsValid(itemBody)) {
+                    const storedChecks = await checkItem(itemBody);
+                    return res.json(storedChecks).status(200);
+                }
 
-            res.sendStatus(400);
-        });
+                res.sendStatus(400);
+            },
+        );
 
         router.delete(this.route, async ({ body }: Request, res: Response) => {
             const itemBody = body as IItem;
