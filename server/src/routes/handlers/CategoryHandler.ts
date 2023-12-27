@@ -1,8 +1,12 @@
 import { ICategory } from "@common/models/ICategory";
 import { Router, Request, Response } from "express";
 import { RouterHandler } from "../RouterHandler";
-import { categoryIsValid } from "common/dist/utils/categoryUtils";
-import { addCategory, removeCategory, updateCategory } from "../../resources/CategoryResource";
+import { categoryIsValid } from "common";
+import {
+    addCategory,
+    removeCategory,
+    updateCategory,
+} from "../../resources/CategoryResource";
 
 export class CategoryHandler extends RouterHandler {
     constructor() {

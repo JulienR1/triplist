@@ -1,11 +1,14 @@
 {
-    "name": "svelte-app",
-    "version": "0.1.0",
-    "private": true,
-    "scripts": {
-        "build": "rollup -c",
-        "dev": "rollup -c -w",
-        "start": "sirv public --no-clear",
-        "check": "svelte-check --tsconfig ./tsconfig.json"
-    }
+  "name": "svelte-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite dev",
+    "check": "svelte-check --tsconfig ./tsconfig.json"
+  },
+  "type": "module",
+  "dependencies": {
+    "common": "file:../common"
+  }
 }

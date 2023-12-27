@@ -4,7 +4,7 @@
     import { Toast } from "../../toast/Toast";
     import type { IActivity } from "@common/models/IActivity";
     import ConfirmedEditableText from "../editableText/ConfirmedEditableText.svelte";
-    import { activitiesAreEqual, activityIsValid } from "common/dist/utils/activityUtils";
+    import { activitiesAreEqual, activityIsValid } from "common";
     import DeleteWrapper from "../DeleteWrapper/DeleteWrapper.svelte";
 
     export let activity: IActivity;
@@ -34,7 +34,11 @@
 
 <th>
     <DeleteWrapper {disabled} on:click={handleDelete}>
-        <ConfirmedEditableText {disabled} bind:value={activity.label} on:datachange={handleDataChange} />
+        <ConfirmedEditableText
+            {disabled}
+            bind:value={activity.label}
+            on:datachange={handleDataChange}
+        />
     </DeleteWrapper>
 </th>
 
